@@ -1,0 +1,56 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class DijkstraSequentialSearch {
+    private Graph graph;
+
+    public DijkstraSequentialSearch(Graph graph) {
+        this.graph = graph;
+    }
+
+    public int[] findShortestPaths(int start) {
+        int n = graph.size();
+        int[] distances = new int[n];
+        boolean[] visited = new boolean[n];
+
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[start] = 0;
+
+        // Priority queue F implemented as a list of all nodes
+        List<Integer> F = new ArrayList<>();
+        for (int i = 0; i < n; i++) F.add(i);
+
+        while (!F.isEmpty()) {
+            int u = extractMin(F, distances, visited);
+            if (u == -1) break;
+
+            visited[u] = true;
+
+            for (Edge edge : graph.getNeighbors(u)) {
+                int v = edge.dest;
+                int newDist = distances[u] + edge.weight;
+
+                if (newDist < distances[v]) {
+                    distances[v] = newDist;
+                }
+            }
+        }
+
+        return distances;
+    }
+
+    private int extractMin(List<Integer> F, int[] dist, boolean[] visited) {
+        int minDist = Integer.MAX_VALUE;
+        int minNode = -1;
+        for (int v : F) {
+            if (!visited[v] && dist[v] < minDist) {
+                minDist = dist[v];
+                minNode = v;
+            }
+        }
+        F.remove((Integer) minNode);
+        return minNode;
+    }
+}
+
