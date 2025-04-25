@@ -1,7 +1,7 @@
-public class FloydWarshallAlgorithm {
-    static void floydWarshall(int[][] dist) {
+public class FloydWarshallAlgorithm {//total time complexity O(n^3)
+    static void floydWarshall(int[][] dist, int INF) {
         int V = dist.length;
-        int INF = 100000000;
+        //int INF = 100000000;
 
         for (int k = 0; k < V; k++) {
 

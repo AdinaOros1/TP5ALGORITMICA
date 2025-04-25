@@ -1,4 +1,4 @@
-public class Edge {
+public class Edge {//time complexity O(1)
     public int dest;
     public int weight;
 

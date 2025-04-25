@@ -9,6 +9,7 @@ public class DijkstraSequentialSearch {
         this.graph = graph;
     }
 
+    //it returns a matrix with all the shortest distances from the source node to all the nodes
     public int[] findShortestPaths(int start) {
         int n = graph.size();
         int[] distances = new int[n];
@@ -17,7 +18,7 @@ public class DijkstraSequentialSearch {
         Arrays.fill(distances, Integer.MAX_VALUE);
         distances[start] = 0;
 
-        // Priority queue F implemented as a list of all nodes
+        // F implemented as a list of all nodes
         List<Integer> F = new ArrayList<>();
         for (int i = 0; i < n; i++) F.add(i);
 
@@ -25,7 +26,7 @@ public class DijkstraSequentialSearch {
             int u = extractMin(F, distances, visited);
             if (u == -1) break;
 
-            visited[u] = true;
+            visited[u] = true;//it marks the unvisited node as visited
 
             for (Edge edge : graph.getNeighbors(u)) {
                 int v = edge.dest;
@@ -40,6 +41,7 @@ public class DijkstraSequentialSearch {
         return distances;
     }
 
+    //returns the node that hasn't been visited with the smallest distance from source
     private int extractMin(List<Integer> F, int[] dist, boolean[] visited) {
         int minDist = Integer.MAX_VALUE;
         int minNode = -1;

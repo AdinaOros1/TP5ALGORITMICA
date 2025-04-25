@@ -15,13 +15,13 @@ public class Graph {
         this.density = density;
         this.adjacencyList = new HashMap<>();
         this.edges = new HashSet<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {//O(n)
             adjacencyList.put(i, new ArrayList<>());
         }
 
         int maxEdges = n * (n - 1);
         int possibleEdges = (int) (density* maxEdges);
-        while (edges.size() < possibleEdges) {
+        while (edges.size() < possibleEdges) {//O(possibleEdges)
             int u = random.nextInt(n);
             int v = random.nextInt(n);
 
@@ -37,18 +37,33 @@ public class Graph {
         }
     }
 
-    public List<Edge> getNeighbors(int v) {
+    public List<Edge> getNeighbors(int v) {//O(1)
         return adjacencyList.getOrDefault(v, new ArrayList<>());
     }
-    public int size(){
+    public int size(){//O(1)
         return n;
     }
 
 
-    public void printGraph() {
+    public void printGraph() {//O(n)
         for (int i = 0; i < n; i++) {
             System.out.println(i + " -> " + adjacencyList.get(i));
         }
+    }
+    public int[][] asAdjacencyMatrix(int INF) {
+        int[][] matrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(matrix[i], INF);// O(n) per row → O(n²) total
+            matrix[i][i] = 0;// O(1) per row → O(n) total
+        }
+
+        for (int u = 0; u < n; u++) {// O(n) iterations
+            for (Edge e : adjacencyList.get(u)) { // O(deg(u))=E which is the number of edges; per node
+                matrix[u][e.dest] = e.weight;// O(1) per edge
+            }
+        }
+
+        return matrix;
     }
 }
 

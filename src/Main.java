@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
 
-        Graph g = new Graph(5, 0.4); // 5 vertices, 40% density
+        Graph g = new Graph(100, 0.4); // 5 vertices, 40% density
         g.printGraph();
 
         long startTime = System.nanoTime();
@@ -41,7 +41,26 @@ public class Main {
         }
         //-------------------floyd warshall algorithm---------------------------------
         int INF = 100000000;
-        int[][] dist = {
+        int[][] matrix = g.asAdjacencyMatrix(INF);
+        FloydWarshallAlgorithm.floydWarshall(matrix, INF);
+
+
+        System.out.println("\nFloyd-Warshall shortest path matrix:");
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                System.out.print((matrix[i][j] == INF ? "INF" : matrix[i][j]) + " ");
+            }
+            System.out.println();
+        }
+
+
+
+
+
+
+
+
+        /*int[][] dist = {
                 { 0, 4, INF, 5, INF },
                 { INF, 0, 1, INF, 6 },
                 { 2, INF, 0, 3, INF },
@@ -57,7 +76,7 @@ public class Main {
                 System.out.print((dist[i][j] == INF ? "INF" : dist[i][j]) + " ");
             }
             System.out.println();
-        }
+        }*/
 
     }
 }
