@@ -1,8 +1,37 @@
 public class Main {
     public static void main(String[] args) {
 
-        Graph g = new Graph(100, 0.4); // 5 vertices, 40% density
+        Graph g = new Graph(100, 0.1); // 100 vertices, 10% density
         g.printGraph();
+
+        //----------------------------- graphs for testing
+        Graph g2 = new Graph(100, 0.2); // 100 vertices, 20% density
+        g2.printGraph();
+
+        Graph g3 = new Graph(100, 0.3); // 100 vertices, 30% density
+        g3.printGraph();
+
+        Graph g4 = new Graph(100, 0.4); // 100 vertices, 40% density
+        g4.printGraph();
+
+        Graph g5 = new Graph(100, 0.5); // 100 vertices, 50% density
+        g5.printGraph();
+
+        Graph g6 = new Graph(100, 0.6); // 100 vertices, 60% density
+        g6.printGraph();
+
+        Graph g7 = new Graph(100, 0.7); // 100 vertices, 70% density
+        g7.printGraph();
+
+        Graph g8 = new Graph(100, 0.8); // 100 vertices, 80% density
+        g8.printGraph();
+
+        Graph g9 = new Graph(100, 0.9); // 100 vertices, 90% density
+        g9.printGraph();
+
+        Graph g10 = new Graph(100, 1); // 100 vertices, 100% density
+        g10.printGraph();
+        //---------------------------------------------------------
 
         long startTime = System.nanoTime();
         DijkstraSequentialSearch dijkstraSequentialSearch = new DijkstraSequentialSearch(g);

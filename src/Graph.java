@@ -28,11 +28,18 @@ public class Graph {
 
             if (u != v) {
                 String edge = u + "," + v;
-                if (!edges.contains(edge)) {
+                if(adjacencyList.containsKey(u)){
+                    if(!adjacencyList.get(u).contains(v)){
+                            edges.add(edge);
+                            int weight = 1 + random.nextInt(10);
+                            adjacencyList.get(u).add(new Edge(v, weight));
+                    }
+                }
+                /*if (!edges.contains(edge)) {
                     edges.add(edge);
                     int weight = 1 + random.nextInt(10);
                     adjacencyList.get(u).add(new Edge(v, weight));
-                }
+                }*/
             }
         }
     }
