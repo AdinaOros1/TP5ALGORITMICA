@@ -1,111 +1,111 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
-    public static void main(String[] args) {
+    static class TestResult {
+        double density;
+        long dijkstraSequentialTime;
+        long dijkstraBinaryHeapTime;
+        long floydWarshallTime;
 
-        Graph g = new Graph(100, 0.1); // 100 vertices, 10% density
-        g.printGraph();
-
-        //----------------------------- graphs for testing
-        Graph g2 = new Graph(100, 0.2); // 100 vertices, 20% density
-        g2.printGraph();
-
-        Graph g3 = new Graph(100, 0.3); // 100 vertices, 30% density
-        g3.printGraph();
-
-        Graph g4 = new Graph(100, 0.4); // 100 vertices, 40% density
-        g4.printGraph();
-
-        Graph g5 = new Graph(100, 0.5); // 100 vertices, 50% density
-        g5.printGraph();
-
-        Graph g6 = new Graph(100, 0.6); // 100 vertices, 60% density
-        g6.printGraph();
-
-        Graph g7 = new Graph(100, 0.7); // 100 vertices, 70% density
-        g7.printGraph();
-
-        Graph g8 = new Graph(100, 0.8); // 100 vertices, 80% density
-        g8.printGraph();
-
-        Graph g9 = new Graph(100, 0.9); // 100 vertices, 90% density
-        g9.printGraph();
-
-        Graph g10 = new Graph(100, 1); // 100 vertices, 100% density
-        g10.printGraph();
-        //---------------------------------------------------------
-
-        long startTime = System.nanoTime();
-        DijkstraSequentialSearch dijkstraSequentialSearch = new DijkstraSequentialSearch(g);
-        int[] distances2 = dijkstraSequentialSearch.findShortestPaths(0);
-
-        long endTime = System.nanoTime();
-        long executionTime = (endTime - startTime);
-        System.out.println("Dijkstra algorithm with sequential search time execution: "
-                + executionTime/1000 + " microseconds");//microseconds
-
-        System.out.println("Below is performing the dijkstra algorithm with sequential search.");
-
-        System.out.println("\nShortest distances from vertex 0:");
-        for (int i = 0; i < distances2.length; i++) {
-            System.out.println("To vertex " + i + ": " +
-                    (distances2[i] == Integer.MAX_VALUE ? "Unreachable" : distances2[i]));
-
+        TestResult(double density, long dijkstraSequentialTime, long dijkstraBinaryHeapTime, long floydWarshallTime) {
+            this.density = density;
+            this.dijkstraSequentialTime = dijkstraSequentialTime;
+            this.dijkstraBinaryHeapTime = dijkstraBinaryHeapTime;
+            this.floydWarshallTime = floydWarshallTime;
         }
+
+        public static void main(String[] args) {
+
+            double[] densities = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+            int numVertices = 100;
+            int INF = 100000000;
+
+            List<TestResult> results = new ArrayList<>();
+
+            for (double density : densities) {
+                //System.out.println("\n--- Testing Graph with Density: " + (int) (density * 100) + "% ---");
+
+                Graph g = new Graph(numVertices, density);
+                //g.printGraph();
+
+                long seqTime = testDijkstraSequentialSearch(g);
+                long heapTime = testDijkstraBinaryHeap(g);
+                long floydTime = testFloydWarshall(g);
+
+                results.add(new TestResult(density, seqTime, heapTime, floydTime));
+            }
+
+            System.out.println("\n---All Tests---");
+            System.out.printf("%-10s %-25s %-25s %-25s%n", "Density", "Dijkstra Sequential (µs)", "Dijkstra Heap (µs)", "Floyd-Warshall (µs)");
+            for (TestResult result : results) {
+                System.out.printf("%-10.1f %-25d %-25d %-25d%n",
+                        result.density, result.dijkstraSequentialTime, result.dijkstraBinaryHeapTime, result.floydWarshallTime);
+            }
+        }
+
+        //---------------------------------------------------------
+        private static long testDijkstraSequentialSearch(Graph g) {
+            long startTime = System.nanoTime();
+            DijkstraSequentialSearch dijkstraSequentialSearch = new DijkstraSequentialSearch(g);
+            int[] distances2 = dijkstraSequentialSearch.findShortestPaths(0);
+
+            long endTime = System.nanoTime();
+            long executionTime = (endTime - startTime);
+            System.out.println("Dijkstra algorithm with sequential search time execution: "
+                    + executionTime / 1000 + " microseconds");//microseconds
+
+            System.out.println("Below is performing the dijkstra algorithm with sequential search.");
+
+            System.out.println("\nShortest distances from vertex 0:");
+            for (int i = 0; i < distances2.length; i++) {
+                System.out.println("To vertex " + i + ": " +
+                        (distances2[i] == Integer.MAX_VALUE ? "Unreachable" : distances2[i]));
+
+            }
+            return executionTime / 1000;
+        }
+
 
         //----------------------------------------------------------------------------------
-        long startTime2 = System.nanoTime();
-        DijkstraBinaryHeap dijkstra = new DijkstraBinaryHeap(g);
-        int[] distances = dijkstra.findShortestPaths(0);
-        long endTime2 = System.nanoTime();
-        long executionTime2 = (endTime2 - startTime2);
-        System.out.println("\nDijkstra algorithm with binary heap time execution: "
-                + executionTime2/1000 + " microseconds");//microseconds
+        private static long testDijkstraBinaryHeap(Graph g) {
+            long startTime2 = System.nanoTime();
+            DijkstraBinaryHeap dijkstra = new DijkstraBinaryHeap(g);
+            int[] distances = dijkstra.findShortestPaths(0);
+            long endTime2 = System.nanoTime();
+            long executionTime2 = (endTime2 - startTime2);
+            System.out.println("\nDijkstra algorithm with binary heap time execution: "
+                    + executionTime2 / 1000 + " microseconds");//microseconds
 
-        System.out.println("Below is performing the dijkstra algorithm with binary heap.");
+            System.out.println("Below is performing the dijkstra algorithm with binary heap.");
 
-        System.out.println("\nShortest distances from vertex 0:");
-        for (int i = 0; i < distances.length; i++) {
-            System.out.println("To vertex " + i + ": " +
-                    (distances[i] == Integer.MAX_VALUE ? "Unreachable" : distances[i]));
+            System.out.println("\nShortest distances from vertex 0:");
+            for (int i = 0; i < distances.length; i++) {
+                System.out.println("To vertex " + i + ": " +
+                        (distances[i] == Integer.MAX_VALUE ? "Unreachable" : distances[i]));
 
+            }
+            return executionTime2 / 1000;
         }
+
         //-------------------floyd warshall algorithm---------------------------------
-        int INF = 100000000;
-        int[][] matrix = g.asAdjacencyMatrix(INF);
-        FloydWarshallAlgorithm.floydWarshall(matrix, INF);
+        private static long testFloydWarshall(Graph g) {
+            int INF = 100000000;
+            int[][] matrix = g.asAdjacencyMatrix(INF);
+            long startTime = System.nanoTime();
+            FloydWarshallAlgorithm.floydWarshall(matrix, INF);
+            long endTime = System.nanoTime();
+            long executionTime = (endTime - startTime);
 
 
-        System.out.println("\nFloyd-Warshall shortest path matrix:");
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                System.out.print((matrix[i][j] == INF ? "INF" : matrix[i][j]) + " ");
+            System.out.println("\nFloyd-Warshall shortest path matrix:");
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix.length; j++) {
+                    System.out.print((matrix[i][j] == INF ? "INF" : matrix[i][j]) + " ");
+                }
+                System.out.println();
             }
-            System.out.println();
+            return executionTime / 1000;
         }
-
-
-
-
-
-
-
-
-        /*int[][] dist = {
-                { 0, 4, INF, 5, INF },
-                { INF, 0, 1, INF, 6 },
-                { 2, INF, 0, 3, INF },
-                { INF, INF, 1, 0, 2 },
-                { 1, INF, INF, 4, 0 }
-        };
-
-        FloydWarshallAlgorithm.floydWarshall(dist);
-
-        System.out.println("\nFloyd-Warshall shortest path matrix:");
-        for (int i = 0; i < dist.length; i++) {
-            for (int j = 0; j < dist.length; j++) {
-                System.out.print((dist[i][j] == INF ? "INF" : dist[i][j]) + " ");
-            }
-            System.out.println();
-        }*/
-
     }
 }
