@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
-public class DijkstraBinaryHeap {
+public class DijkstraBinaryHeap {//O((n+E)*log n)
     private Graph graph;
 
     public DijkstraBinaryHeap(Graph graph) {
@@ -14,15 +14,15 @@ public class DijkstraBinaryHeap {
         boolean[] visited = new boolean[n];
 
         // Initialize distances
-        Arrays.fill(distances, Integer.MAX_VALUE);
+        Arrays.fill(distances, Integer.MAX_VALUE);//O(n)
         distances[start] = 0;
 
         // Priority queue to get the next minimum distance node
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(start, 0));
+        pq.add(new Node(start, 0));//O(log n)
 
         while (!pq.isEmpty()) {
-            Node current = pq.poll();
+            Node current = pq.poll();//O(log n)
             int u = current.id;
 
             if (visited[u]) continue;
@@ -34,7 +34,7 @@ public class DijkstraBinaryHeap {
 
                 if (newDist < distances[v]) {
                     distances[v] = newDist;
-                    pq.add(new Node(v, newDist));
+                    pq.add(new Node(v, newDist));//O(E*log n)
                 }
             }
         }
@@ -43,7 +43,7 @@ public class DijkstraBinaryHeap {
     }
 
     // Helper class for priority queue
-    private static class Node implements Comparable<Node> {
+    private static class Node implements Comparable<Node> {//O(1)
         int id;
         int dist;
 

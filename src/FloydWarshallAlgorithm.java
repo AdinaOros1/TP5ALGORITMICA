@@ -1,4 +1,4 @@
-public class FloydWarshallAlgorithm {//total time complexity O(n^3)
+public class FloydWarshallAlgorithm {//total time complexity O(V^3)
     static void floydWarshall(int[][] dist, int INF) {
         int V = dist.length;
         //int INF = 100000000;

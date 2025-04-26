@@ -1,7 +1,7 @@
 import java.util.*;
 
 
-public class Graph {
+public class Graph {//total time complexity O(N^2)
     int n;//number of vertices/nodes
     double density;//density value(it will later help to see the possible number of edges)
     private Map<Integer, List<Edge>> adjacencyList; //map where each node point to a set of its neighbours
@@ -10,7 +10,7 @@ public class Graph {
 
 
 
-    public Graph(int n, double density) {
+    public Graph(int n, double density) {//O(n+possibleEdges*deg(u)) in total O(n)
         this.n = n;
         this.density = density;
         this.adjacencyList = new HashMap<>();
@@ -57,7 +57,7 @@ public class Graph {
             System.out.println(i + " -> " + adjacencyList.get(i));
         }
     }
-    public int[][] asAdjacencyMatrix(int INF) {
+    public int[][] asAdjacencyMatrix(int INF) {//time complexity O(n^2 +n+E) which in total is O(n^2)
         int[][] matrix = new int[n][n];
         for (int i = 0; i < n; i++) {
             Arrays.fill(matrix[i], INF);// O(n) per row → O(n²) total

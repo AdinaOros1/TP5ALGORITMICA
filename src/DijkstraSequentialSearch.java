@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DijkstraSequentialSearch {
+public class DijkstraSequentialSearch {//O(n^2)
     private Graph graph;
 
     public DijkstraSequentialSearch(Graph graph) {
@@ -15,7 +15,7 @@ public class DijkstraSequentialSearch {
         int[] distances = new int[n];
         boolean[] visited = new boolean[n];
 
-        Arrays.fill(distances, Integer.MAX_VALUE);
+        Arrays.fill(distances, Integer.MAX_VALUE);//O(n)
         distances[start] = 0;
 
         // F implemented as a list of all nodes
@@ -23,12 +23,12 @@ public class DijkstraSequentialSearch {
         for (int i = 0; i < n; i++) F.add(i);
 
         while (!F.isEmpty()) {
-            int u = extractMin(F, distances, visited);
+            int u = extractMin(F, distances, visited);//O(n^2)
             if (u == -1) break;
 
             visited[u] = true;//it marks the unvisited node as visited
 
-            for (Edge edge : graph.getNeighbors(u)) {
+            for (Edge edge : graph.getNeighbors(u)) {//O(E)
                 int v = edge.dest;
                 int newDist = distances[u] + edge.weight;
 
@@ -42,7 +42,7 @@ public class DijkstraSequentialSearch {
     }
 
     //returns the node that hasn't been visited with the smallest distance from source
-    private int extractMin(List<Integer> F, int[] dist, boolean[] visited) {
+    private int extractMin(List<Integer> F, int[] dist, boolean[] visited) {//O(n^2)
         int minDist = Integer.MAX_VALUE;
         int minNode = -1;
         for (int v : F) {
